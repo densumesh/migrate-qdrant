@@ -1,0 +1,14 @@
+services:
+  migrate-qdrant:
+    image: trieve/migrate-qdrant
+    container_name: migrate-qdrant
+    build: ./migrate-qdrant/
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_USERNAME=${REDIS_USERNAME}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - OLD_QDRANT_HOST=${OLD_QDRANT_HOST}
+      - OLD_QDRANT_API_KEY=${OLD_QDRANT_API_KEY}
+      - OLD_QDRANT_COLLECTION_NAME=${OLD_QDRANT_COLLECTION_NAME}
+      - NEW_QDRANT_HOST=${NEW_QDRANT_HOST}
+      - NEW_QDRANT_API_KEY=${NEW_QDRANT_API_KEY}
