@@ -43,10 +43,14 @@ def create_dataset_queue():
 
             # Add the rows to the Redis queue
             def process_rows(rows):
-                r.sadd("qdrant_ids_to_migrate", *[str(row[1]) for row in rows])
+                for row in rows:
+                    currentBusiness_id = row[0]
+                    if r.sismember("qdrant_ids_to_migrate", str(row[1])) == 0:
+                        print(f"Adding {row[1]} to the queue")
+                        r.sadd("qdrant_ids_to_migrate", str(row[1]))
 
             # Chunk the rows into 10 arrays
-            chunk_size = len(rows) // 40
+            chunk_size = len(rows) // 100
             chunks = [rows[i : i + chunk_size] for i in range(0, len(rows), chunk_size)]
 
             threads = []
